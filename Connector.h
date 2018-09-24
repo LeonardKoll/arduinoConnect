@@ -26,3 +26,5 @@ class Receiver
 };
 
 #endif
+
+// https://stackoverflow.com/questions/9410/how-do-you-pass-a-function-as-a-parameter-in-c

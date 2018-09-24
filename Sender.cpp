@@ -9,17 +9,17 @@ Sender::Sender(int pin)
 
 void Sender::heartbeat()
 {
-  digitalWrite(outPin, HIGH);
+  digitalWrite(_pin, HIGH);
   delay(2);
-  digitalWrite(outPin, LOW);
+  digitalWrite(_pin, LOW);
 }
 
 void Sender::send(int msg[], int msgLength)
 {
   // Start sending
-  digitalWrite(outPin, HIGH);
+  digitalWrite(_pin, HIGH);
   delay(1);
-  digitalWrite(outPin, LOW);
+  digitalWrite(_pin, LOW);
   delay(1);
 
   // Data
@@ -27,14 +27,14 @@ void Sender::send(int msg[], int msgLength)
   {
     if(msg[i] == 0)
     {
-      digitalWrite(outPin, LOW);
+      digitalWrite(_pin, LOW);
     }
     else
     {
-      digitalWrite(outPin, HIGH);
+      digitalWrite(_pin, HIGH);
     }
     delay(1);
   }
 
-  digitalWrite(outPin, LOW);
+  digitalWrite(_pin, LOW);
 }

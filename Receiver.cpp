@@ -1,16 +1,16 @@
 #include "Arduino.h"
 #include "Connector.h"
 
-Receiver::(int pin, int heartbeatAlarm, void (*fireAlarm)(), void (*stopAlarm)() )
+Receiver::Receiver(int pin, int heartbeatAlarm, void (*fireAlarm)(), void (*stopAlarm)() )
 {
   pinMode(pin, OUTPUT);
   _pin = pin;
   _heartbeatAlarm = heartbeatAlarm;
-  void (*_fireAlarm)() = void (*fireAlarm)();
-  void (*_stopAlarm)() = void (*stopAlarm)();
+  _fireAlarm = fireAlarm;
+  _stopAlarm = stopAlarm;
 }
 
-void listen(int dest[], int msgLength)
+void Receiver::listen(int dest[], int msgLength)
 {
   long lastHeartbeat = millis();
   int hbAlarm = 0;
@@ -21,12 +21,12 @@ void listen(int dest[], int msgLength)
     delay(1);
     
     // Daten / Heartbeat lesen
-    if (digitalRead(inPin) == HIGH)
+    if (digitalRead(_pin) == HIGH)
     {
       delay(1);
       
       // Heartbeat yes/no
-      if (digitalRead(inPin) == HIGH)
+      if (digitalRead(_pin) == HIGH)
       {
         // Heartbeat
         lastHeartbeat = millis();
@@ -45,7 +45,7 @@ void listen(int dest[], int msgLength)
       if (millis()-lastHeartbeat < _heartbeatAlarm) 
       {
         hbAlarm = 0;
-        (*_stopAlarm)();
+        _stopAlarm();
       }
     }
     else
@@ -53,7 +53,7 @@ void listen(int dest[], int msgLength)
       if (millis()-lastHeartbeat > _heartbeatAlarm) 
       {
         hbAlarm = 1;
-        (*_fireAlarm)();
+        _fireAlarm();
       }
     }
   }
@@ -61,7 +61,7 @@ void listen(int dest[], int msgLength)
   // Daten Empfangen
   for (int i=0; i<msgLength; i++)
   {
-    dest[i] = digitalRead(inPin);
+    dest[i] = digitalRead(_pin);
     delay(1);
   }
 }
