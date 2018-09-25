@@ -14,7 +14,7 @@ void Sender::heartbeat()
   digitalWrite(_pin, LOW);
 }
 
-void Sender::send(int msg[], int msgLength)
+void Sender::send(String* msg, int msgLength)
 {
   // Start sending
   digitalWrite(_pin, HIGH);
@@ -23,18 +23,21 @@ void Sender::send(int msg[], int msgLength)
   delay(1);
 
   // Data
-  for (int i=0; i<msgLength; i++)
+  for (int iA=0; iA < msgLength; iA++)
   {
-    if(msg[i] == 0)
+    for(int iB=7; 0<=iB; iB--)
     {
-      digitalWrite(_pin, LOW);
+      if (((*msg)[iA] >> iB) & 0x01)
+      {
+        digitalWrite(_pin, HIGH);
+      }
+      else
+      {
+        digitalWrite(_pin, LOW);
+      }
+      delay(1);
     }
-    else
-    {
-      digitalWrite(_pin, HIGH);
-    }
-    delay(1);
   }
 
-  digitalWrite(_pin, LOW);
+  digitalWrite(2, LOW);
 }

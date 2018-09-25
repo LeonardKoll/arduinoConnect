@@ -8,7 +8,7 @@ class Sender
   public:
     Sender(int pin);
     void heartbeat ();
-    void send(int msg[], int msgLength);
+    void send(String* msg, int msgLength);
   private:
     int _pin;
 };
@@ -17,7 +17,7 @@ class Receiver
 {
   public:
     Receiver(int pin, int heartbeatAlarm, void (*fireAlarm)(), void (*stopAlarm)() );
-    void listen(int dest[], int msgLength);
+    void listen(String* dest, int msgLength);
   private:
     int _pin;
     int _heartbeatAlarm;

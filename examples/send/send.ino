@@ -18,8 +18,8 @@ void loop()
   }
 
   Serial.print("Sending\n");
-  int sendData[8] = {1,1,1,0,0,1,1,1};
-  sender.send(sendData, 8);
+  String tosend = "Te0st";
+  sender.send(&tosend, 5);
 
   Serial.print("No Heartbeat\n");
   delay(5000);

@@ -1,16 +1,16 @@
 #include <Connector.h>
 
-void fire_heartbeatAlarm ()
+void fireHBalarm ()
 {
   Serial.print("Kein Heartbeat\n");
 }
 
-void stop_heartbeatAlarm ()
+void stopHBalarm ()
 {
   Serial.print("Heartbeat back\n");
 }
 
-Receiver receiver(2, 2000, fire_heartbeatAlarm, stop_heartbeatAlarm);
+Receiver receiver(2, 2000, fireHBalarm, stopHBalarm);
 
 void setup()
 {
@@ -20,12 +20,8 @@ void setup()
 void loop()
 {
   Serial.print("Listening\n");
-  int rcvData[8] = {9,9,9,9,9,9,9,9};
-  receiver.listen (rcvData, 8);
-  Serial.print("Received: ");
-  for (int i=0; i<8; i++)
-  {
-    Serial.print(rcvData[i]);
-  }
+  String msg = "_____";
+  receiver.listen (&msg, 5);
+  Serial.print(msg);
   Serial.print("\n");
 }

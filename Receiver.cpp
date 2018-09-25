@@ -3,14 +3,14 @@
 
 Receiver::Receiver(int pin, int heartbeatAlarm, void (*fireAlarm)(), void (*stopAlarm)() )
 {
-  pinMode(pin, OUTPUT);
+  pinMode(pin, INPUT);
   _pin = pin;
   _heartbeatAlarm = heartbeatAlarm;
   _fireAlarm = fireAlarm;
   _stopAlarm = stopAlarm;
 }
 
-void Receiver::listen(int dest[], int msgLength)
+void Receiver::listen(String* dest, int msgLength)
 {
   long lastHeartbeat = millis();
   int hbAlarm = 0;
@@ -59,9 +59,14 @@ void Receiver::listen(int dest[], int msgLength)
   }
 
   // Daten Empfangen
-  for (int i=0; i<msgLength; i++)
+  for (int iA=0; iA<msgLength; iA++)
   {
-    dest[i] = digitalRead(_pin);
-    delay(1);
+    char current = 0x00;
+    for(int iB=0; iB<8; iB++)
+    {
+      current = (current << 1) | digitalRead(_pin);
+      delay(1);
+    }
+    (*dest)[iA] = current;
   }
 }
