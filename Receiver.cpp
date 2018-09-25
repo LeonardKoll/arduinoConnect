@@ -18,12 +18,12 @@ void Receiver::listen(String* dest, int msgLength)
   // Startsequenz
   while(true)
   {
-    delay(1);
+    delay(2);
     
     // Daten / Heartbeat lesen
     if (digitalRead(_pin) == HIGH)
     {
-      delay(1);
+      delay(2);
       
       // Heartbeat yes/no
       if (digitalRead(_pin) == HIGH)
@@ -33,7 +33,7 @@ void Receiver::listen(String* dest, int msgLength)
       }
       else
       {
-        delay(1);
+        delay(2);
         // Data - switch to recv mode.
         break;
       } 
@@ -65,7 +65,7 @@ void Receiver::listen(String* dest, int msgLength)
     for(int iB=0; iB<8; iB++)
     {
       current = (current << 1) | digitalRead(_pin);
-      delay(1);
+      delay(2);
     }
     (*dest)[iA] = current;
   }
